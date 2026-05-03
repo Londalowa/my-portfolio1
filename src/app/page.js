@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { 
   Mail, 
   FileText, 
@@ -17,7 +17,36 @@ import {
 } from "lucide-react";
 
 export default function Portfolio() {
+  // Use state to make the download counter "feel" real for the session
+  const [downloadCount, setDownloadCount] = useState(10);
+  
+  // MATCH YOUR FILE NAME EXACTLY:
   const cvPath = "/Loneliness_ndalowa_cv.pdf";
+
+  // --- SHARE FUNCTION ---
+  const handleShare = async () => {
+    const shareData = {
+      title: "Loneliness Ndalowa | Portfolio",
+      text: "Check out Loneliness Ndalowa's professional frontend developer portfolio.",
+      url: typeof window !== "undefined" ? window.location.href : "",
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert("Link copied! You can now paste and share it.");
+      }
+    } catch (err) {
+      console.error("Share failed:", err);
+    }
+  };
+
+  // --- DOWNLOAD TRACKER ---
+  const trackDownload = () => {
+    setDownloadCount(prev => prev + 1);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
@@ -35,7 +64,11 @@ export default function Portfolio() {
           <div className="lg:col-span-4">
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
               <div className="relative w-44 h-44 mx-auto mb-6 flex items-center justify-center bg-slate-100 rounded-full border-4 border-white shadow-md overflow-hidden">
-                <img src="/pic.jpeg" alt="Loneliness ndalowa" className="w-full h-full object-cover" />
+                <img 
+                  src="/pic.jpeg" 
+                  alt="Loneliness ndalowa" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
               <h2 className="text-2xl font-bold text-slate-800">Loneliness ndalowa</h2>
               <p className="text-blue-600 font-medium mb-6">Frontend Developer</p>
@@ -64,7 +97,12 @@ export default function Portfolio() {
                 >
                   <Eye size={18} /> View CV
                 </a>
-                <button className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-slate-500">
+                
+                {/* SHARE BUTTON FIX */}
+                <button 
+                  onClick={handleShare}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-slate-500 active:scale-95"
+                >
                   <Share2 size={18} /> Share
                 </button>
               </div>
@@ -74,12 +112,11 @@ export default function Portfolio() {
           {/* RIGHT COLUMN: CV & TECHNICAL FOCUS */}
           <div className="lg:col-span-8 space-y-6">
             
-            {/* CV Section */}
             <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold">CV Information</h3>
                 <div className="flex items-center gap-2 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                  <RefreshCw size={12} /> 10 Downloads
+                  <RefreshCw size={12} /> {downloadCount} Downloads
                 </div>
               </div>
               
@@ -95,7 +132,6 @@ export default function Portfolio() {
                 </div>
               </div>
 
-              {/* ACTION BUTTONS (Updated to work with file) */}
               <div className="grid grid-cols-2 gap-4 mt-8">
                 <a 
                   href={cvPath}
@@ -107,6 +143,7 @@ export default function Portfolio() {
                 </a>
                 <a 
                   href={cvPath}
+                  onClick={trackDownload}
                   download="Loneliness_ndalowa_CV.pdf"
                   className="bg-emerald-500 text-white py-4 rounded-xl font-bold hover:bg-emerald-600 transition shadow-lg shadow-emerald-200 text-center flex items-center justify-center gap-2"
                 >
@@ -122,7 +159,7 @@ export default function Portfolio() {
                 <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
                   <div className="p-2 bg-blue-50 text-blue-600 rounded-lg w-fit mb-3"><Code2 size={20}/></div>
                   <p className="font-bold text-sm">Frontend</p>
-                  <p className="text-xs text-slate-500 mt-1">React, Next.js, Tailwind CSS, JavaScript</p>
+                  <p className="text-xs text-slate-500 mt-1">React, Next.js, Tailwind CSS</p>
                 </div>
                 
                 <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
@@ -134,7 +171,7 @@ export default function Portfolio() {
                 <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
                   <div className="p-2 bg-purple-50 text-purple-600 rounded-lg w-fit mb-3"><Smartphone size={20}/></div>
                   <p className="font-bold text-sm">Mobile</p>
-                  <p className="text-xs text-slate-500 mt-1">React Native, Android Development</p>
+                  <p className="text-xs text-slate-500 mt-1">React Native, Android</p>
                 </div>
               </div>
             </div>
@@ -143,7 +180,6 @@ export default function Portfolio() {
         </div>
       </main>
 
-      {/* --- COMPACT MEDIUM FOOTER --- */}
       <footer className="bg-[#0a1224] text-slate-400 py-12 px-8 mt-20">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="space-y-4">
@@ -154,7 +190,6 @@ export default function Portfolio() {
             <p className="text-slate-400 text-sm max-w-xs">
               Frontend Developer creating amazing digital experiences.
             </p>
-            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-[10px] border border-slate-800 font-bold">N</div>
           </div>
 
           <div>
@@ -172,9 +207,9 @@ export default function Portfolio() {
             <h4 className="text-white font-bold mb-4 text-sm">Resources</h4>
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                <a href={cvPath} download="Loneliness_ndalowa_CV.pdf" className="flex items-center gap-3">
+                <button onClick={() => {trackDownload(); window.location.href=cvPath;}} className="flex items-center gap-3">
                   <Download size={16} /> Download CV
-                </a>
+                </button>
               </li>
               <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
                 <Mail size={16} /> Contact
