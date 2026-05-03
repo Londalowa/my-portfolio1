@@ -2,177 +2,154 @@
 
 import React, { useState } from "react";
 import { 
-  Mail, 
-  FileText, 
-  Share2, 
-  Eye,
-  Download,
-  ChevronRight,
-  Phone,
-  MapPin,
-  RefreshCw,
-  Code2,
-  Database,
-  Smartphone
+  Mail, FileText, Share2, Eye, Download, 
+  ChevronRight, Phone, MapPin, RefreshCw, 
+  Code2, Database, Smartphone, Menu, X 
 } from "lucide-react";
 
 export default function Portfolio() {
-  // Use state to make the download counter "feel" real for the session
   const [downloadCount, setDownloadCount] = useState(10);
-  
-  // MATCH YOUR FILE NAME EXACTLY:
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const cvPath = "/Loneliness_ndalowa_cv.pdf";
 
-  // --- SHARE FUNCTION ---
   const handleShare = async () => {
     const shareData = {
       title: "Loneliness Ndalowa | Portfolio",
-      text: "Check out Loneliness Ndalowa's professional frontend developer portfolio.",
+      text: "Check out my professional frontend developer portfolio.",
       url: typeof window !== "undefined" ? window.location.href : "",
     };
-
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-      } else {
-        await navigator.clipboard.writeText(window.location.href);
-        alert("Link copied! You can now paste and share it.");
-      }
-    } catch (err) {
-      console.error("Share failed:", err);
-    }
-  };
-
-  // --- DOWNLOAD TRACKER ---
-  const trackDownload = () => {
-    setDownloadCount(prev => prev + 1);
+      if (navigator.share) { await navigator.share(shareData); } 
+      else { await navigator.clipboard.writeText(window.location.href); alert("Link copied!"); }
+    } catch (err) { console.error(err); }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
       
-      <main className="max-w-7xl mx-auto p-4 md:p-8 pt-20">
-        
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold text-slate-800">My Profile</h1>
-          <p className="text-slate-500 mt-2">Professional profile and technical credentials</p>
+      {/* --- FLEXIBLE NAVBAR --- */}
+      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md z-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs">LN</div>
+            <span className="font-bold text-slate-800">L. Ndalowa</span>
+          </div>
+
+          {/* Desktop Links */}
+          <div className="hidden md:flex items-center gap-6">
+            {['Profile', 'Skills', 'Resources'].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-medium text-slate-500 hover:text-blue-600 transition">{item}</a>
+            ))}
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button className="md:hidden p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Mobile Dropdown */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-white border-b border-slate-100 p-4 space-y-4 shadow-xl">
+            {['Profile', 'Skills', 'Resources'].map(item => (
+              <a key={item} href="#" className="block text-sm font-medium text-slate-600" onClick={() => setIsMenuOpen(false)}>{item}</a>
+            ))}
+          </div>
+        )}
+      </nav>
+
+      {/* --- MAIN CONTENT --- */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+        
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-800">My Profile</h1>
+          <p className="text-slate-500 mt-2 text-sm md:text-base">Professional credentials & expertise</p>
+        </div>
+
+        {/* Grid System: Stacks on Mobile, 12-cols on Desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
           
           {/* LEFT COLUMN: IDENTITY */}
-          <div className="lg:col-span-4">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
-              <div className="relative w-44 h-44 mx-auto mb-6 flex items-center justify-center bg-slate-100 rounded-full border-4 border-white shadow-md overflow-hidden">
-                <img 
-                  src="/pic.jpeg" 
-                  alt="Loneliness ndalowa" 
-                  className="w-full h-full object-cover" 
-                />
+          <div className="lg:col-span-4 w-full">
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
+              <div className="relative w-32 h-32 md:w-44 md:h-44 mx-auto mb-6 flex items-center justify-center bg-slate-100 rounded-full border-4 border-white shadow-md overflow-hidden">
+                <img src="/pic.jpeg" alt="Loneliness" className="w-full h-full object-cover" />
               </div>
-              <h2 className="text-2xl font-bold text-slate-800">Loneliness ndalowa</h2>
-              <p className="text-blue-600 font-medium mb-6">Frontend Developer</p>
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800">Loneliness Ndalowa</h2>
+              <p className="text-blue-600 font-medium mb-6 text-sm md:text-base">Frontend Developer</p>
               
-              <div className="space-y-3 text-left text-slate-600 mb-8 border-t border-slate-50 pt-6">
-                <div className="flex items-center gap-3 text-sm">
-                  <Mail size={16} className="text-slate-400" />
-                  <span>ndalowaloneliness@gmail.com</span>
+              <div className="space-y-4 text-left text-slate-600 mb-8 border-t border-slate-50 pt-6">
+                <div className="flex items-start gap-3 text-sm">
+                  <Mail size={16} className="text-slate-400 mt-0.5 shrink-0" />
+                  <span className="break-all">ndalowaloneliness@gmail.com</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <Phone size={16} className="text-slate-400" />
+                  <Phone size={16} className="text-slate-400 shrink-0" />
                   <span>0888778512</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <MapPin size={16} className="text-slate-400" />
+                  <MapPin size={16} className="text-slate-400 shrink-0" />
                   <span>Zomba, Malawi</span>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <a 
-                  href={cvPath}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition cursor-pointer"
-                >
+              <div className="grid grid-cols-1 gap-3">
+                <a href={cvPath} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-sm">
                   <Eye size={18} /> View CV
                 </a>
-                
-                {/* SHARE BUTTON FIX */}
-                <button 
-                  onClick={handleShare}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-slate-500 active:scale-95"
-                >
-                  <Share2 size={18} /> Share
+                <button onClick={handleShare} className="flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 rounded-xl hover:bg-slate-50 transition text-slate-500 text-sm">
+                  <Share2 size={18} /> Share Profile
                 </button>
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: CV & TECHNICAL FOCUS */}
+          {/* RIGHT COLUMN: CONTENT */}
           <div className="lg:col-span-8 space-y-6">
             
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+            {/* CV CARD */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold">CV Information</h3>
-                <div className="flex items-center gap-2 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
-                  <RefreshCw size={12} /> {downloadCount} Downloads
+                <h3 className="font-bold text-lg">CV Document</h3>
+                <div className="flex items-center gap-2 text-[10px] font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                  <RefreshCw size={12} /> {downloadCount} DOWNLOADS
                 </div>
               </div>
               
-              <div className="bg-slate-50 p-6 rounded-2xl flex items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-4 bg-white border border-slate-100 text-blue-600 rounded-xl shadow-sm">
-                    <FileText size={28} />
-                  </div>
-                  <div>
-                    <p className="font-bold text-slate-800">Loneliness_ndalowa_cv.pdf</p>
-                    <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Professional CV Document</p>
-                  </div>
+              <div className="bg-slate-50 p-4 md:p-6 rounded-2xl flex flex-col sm:flex-row items-center gap-4">
+                <div className="p-4 bg-white text-blue-600 rounded-xl shadow-sm"><FileText size={28} /></div>
+                <div className="text-center sm:text-left">
+                  <p className="font-bold text-slate-800 text-sm md:text-base">Loneliness_ndalowa_cv.pdf</p>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">PDF Document • 1.4 MB</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mt-8">
-                <a 
-                  href={cvPath}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-blue-600 transition shadow-lg shadow-slate-200 text-center flex items-center justify-center gap-2"
-                >
-                  <Eye size={20} /> Open
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+                <a href={cvPath} target="_blank" className="bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-blue-600 transition flex items-center justify-center gap-2 text-sm">
+                  <Eye size={18} /> Open
                 </a>
-                <a 
-                  href={cvPath}
-                  onClick={trackDownload}
-                  download="Loneliness_ndalowa_CV.pdf"
-                  className="bg-emerald-500 text-white py-4 rounded-xl font-bold hover:bg-emerald-600 transition shadow-lg shadow-emerald-200 text-center flex items-center justify-center gap-2"
-                >
-                  <Download size={20} /> Download
+                <a href={cvPath} download onClick={() => setDownloadCount(d => d+1)} className="bg-emerald-500 text-white py-4 rounded-xl font-bold hover:bg-emerald-600 transition flex items-center justify-center gap-2 text-sm shadow-lg shadow-emerald-100">
+                  <Download size={18} /> Download
                 </a>
               </div>
             </div>
 
-            {/* Technical Focus Section */}
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6">Technical Focus & Expertise</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
-                  <div className="p-2 bg-blue-50 text-blue-600 rounded-lg w-fit mb-3"><Code2 size={20}/></div>
-                  <p className="font-bold text-sm">Frontend</p>
-                  <p className="text-xs text-slate-500 mt-1">React, Next.js, Tailwind CSS</p>
-                </div>
-                
-                <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
-                  <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg w-fit mb-3"><Database size={20}/></div>
-                  <p className="font-bold text-sm">Database</p>
-                  <p className="text-xs text-slate-500 mt-1">MySQL, PostgreSQL, MongoDB</p>
-                </div>
-
-                <div className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
-                  <div className="p-2 bg-purple-50 text-purple-600 rounded-lg w-fit mb-3"><Smartphone size={20}/></div>
-                  <p className="font-bold text-sm">Mobile</p>
-                  <p className="text-xs text-slate-500 mt-1">React Native, Android</p>
-                </div>
+            {/* EXPERTISE GRID */}
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+              <h3 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Technical Focus</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {[
+                  { icon: <Code2 size={20}/>, color: 'blue', title: 'Frontend', desc: 'React, Next.js, Tailwind' },
+                  { icon: <Database size={20}/>, color: 'emerald', title: 'Database', desc: 'SQL, NoSQL, Supabase' },
+                  { icon: <Smartphone size={20}/>, color: 'purple', title: 'Mobile', desc: 'React Native, Android' }
+                ].map((skill, i) => (
+                  <div key={i} className="p-4 rounded-xl border border-slate-50 bg-slate-50/50">
+                    <div className={`p-2 bg-${skill.color}-50 text-${skill.color}-600 rounded-lg w-fit mb-3`}>{skill.icon}</div>
+                    <p className="font-bold text-sm">{skill.title}</p>
+                    <p className="text-xs text-slate-500 mt-1">{skill.desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -180,48 +157,21 @@ export default function Portfolio() {
         </div>
       </main>
 
-      <footer className="bg-[#0a1224] text-slate-400 py-12 px-8 mt-20">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-              <span className="text-lg font-bold text-emerald-500">Loneliness ndalowa</span>
+      {/* COMPACT FOOTER */}
+      <footer className="bg-[#0a1224] text-slate-400 py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+              <div className="w-6 h-6 rounded-full bg-blue-500"></div>
+              <span className="font-bold text-white">Loneliness Ndalowa</span>
             </div>
-            <p className="text-slate-400 text-sm max-w-xs">
-              Frontend Developer creating amazing digital experiences.
-            </p>
+            <p className="text-xs">Frontend Developer Portfolio © 2026</p>
           </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-4 text-sm">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              {['Profile', 'Courses', 'Education', 'Skills', 'Certification'].map((item) => (
-                <li key={item} className="hover:text-white cursor-pointer transition-colors flex items-center gap-2">
-                  <ChevronRight size={12} className="text-slate-700" /> {item}
-                </li>
-              ))}
-            </ul>
+          <div className="flex gap-6 text-xs font-medium uppercase tracking-widest">
+            <a href="#" className="hover:text-white transition">LinkedIn</a>
+            <a href="#" className="hover:text-white transition">GitHub</a>
+            <a href="mailto:ndalowaloneliness@gmail.com" className="hover:text-white transition">Email</a>
           </div>
-
-          <div>
-            <h4 className="text-white font-bold mb-4 text-sm">Resources</h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                <button onClick={() => {trackDownload(); window.location.href=cvPath;}} className="flex items-center gap-3">
-                  <Download size={16} /> Download CV
-                </button>
-              </li>
-              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
-                <Mail size={16} /> Contact
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="max-w-6xl mx-auto mt-10 pt-6 border-t border-slate-900 text-center">
-           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600">
-              © 2026 Loneliness ndalowa. All rights reserved.
-           </p>
         </div>
       </footer>
     </div>
