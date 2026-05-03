@@ -4,10 +4,14 @@ import React from 'react';
 import { 
   Code2, Database, Smartphone, Layout, Settings, Brain, 
   Globe, Zap, Target, RefreshCw, Box, Award, 
-  MessageSquare, Users, Cpu, TrendingUp
+  MessageSquare, Users, Cpu, TrendingUp,
+  ChevronRight, Download, Mail // Added missing imports for footer
 } from 'lucide-react';
 
 export default function SkillsPage() {
+  // Defined cvPath to prevent reference errors
+  const cvPath = "/loneliness_ndalowa_cv.pdf";
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       
@@ -22,7 +26,7 @@ export default function SkillsPage() {
         </div>
 
         {/* --- TECHNICAL SKILLS GRID --- */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-24 text-left">
           {/* Frontend */}
           <div className="space-y-8 bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
             <h3 className="text-xl font-bold flex items-center gap-2 text-slate-800 border-b pb-4">
@@ -63,7 +67,7 @@ export default function SkillsPage() {
           </div>
         </div>
 
-        {/* --- STATS CARDS (Now White) --- */}
+        {/* --- STATS CARDS --- */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           <StatCard 
             value="6" 
@@ -87,10 +91,10 @@ export default function SkillsPage() {
 
         {/* --- SOFT SKILLS --- */}
         <div className="mb-24">
-          <h2 className="text-2xl font-bold mb-10 flex items-center gap-3">
+          <h2 className="text-2xl font-bold mb-10 flex items-center justify-center md:justify-start gap-3">
             <Users className="text-orange-500" /> Soft Skills & Competencies
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
             <SoftSkillCard icon={<Zap className="text-blue-500"/>} title="Problem Solving" desc="Analytical thinking and solution development." />
             <SoftSkillCard icon={<Settings className="text-purple-500"/>} title="Project Management" desc="Planning and execution of technical projects." />
             <SoftSkillCard icon={<MessageSquare className="text-emerald-500"/>} title="Communication" desc="Clear and effective collaboration." />
@@ -100,9 +104,9 @@ export default function SkillsPage() {
           </div>
         </div>
 
-        {/* --- TOOLS & TECHNOLOGIES (Now White) --- */}
+        {/* --- TOOLS & TECHNOLOGIES --- */}
         <div className="mb-24">
-          <h2 className="text-2xl font-bold mb-10 flex items-center gap-3">
+          <h2 className="text-2xl font-bold mb-10 flex items-center justify-center md:justify-start gap-3">
             <Box className="text-purple-600" /> Tools & Technologies
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
@@ -114,7 +118,7 @@ export default function SkillsPage() {
           </div>
         </div>
 
-        {/* --- APPROACH SECTION (Now White) --- */}
+        {/* --- APPROACH SECTION --- */}
         <div className="mb-20">
           <h2 className="text-2xl font-bold mb-10 text-center">Skill Development Approach</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -126,12 +130,45 @@ export default function SkillsPage() {
 
       </main>
 
-      <footer className="bg-slate-900 text-slate-400 py-12 px-8 text-center">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <div className="w-6 h-6 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full"></div>
-          <span className="text-white font-bold">Loneliness Ndalowa</span>
+      {/* --- UPDATED FOOTER CONTENT --- */}
+      <footer className="bg-[#0a1224] text-slate-400 py-12 px-8 mt-20 text-left">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+              <span className="text-lg font-bold text-emerald-500">Loneliness ndalowa</span>
+            </div>
+            <p className="text-slate-400 text-sm max-w-xs">
+              Frontend Developer creating amazing digital experiences.
+            </p>
+            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-[10px] border border-slate-800 font-bold">N</div>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold mb-4 text-sm">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              {['Profile', 'Courses', 'Education', 'Skills', 'Certification'].map((item) => (
+                <li key={item} className="hover:text-white cursor-pointer transition-colors flex items-center gap-2">
+                  <ChevronRight size={12} className="text-slate-700" /> {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold mb-4 text-sm">Resources</h4>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
+                <a href={cvPath} download="loneliness_ndalowa_cv.pdf" className="flex items-center gap-3">
+                  <Download size={16} /> Download CV
+                </a>
+              </li>
+              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
+                <Mail size={16} /> Contact
+              </li>
+            </ul>
+          </div>
         </div>
-        <p className="text-sm">© 2026. All rights reserved.</p>
       </footer>
     </div>
   );

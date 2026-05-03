@@ -2,15 +2,16 @@ import React from 'react';
 import { 
   User, BookOpen, GraduationCap, Code2, Mail, 
   Calendar, MapPin, Briefcase, Target, Brain, 
-  Award, Star, Shield, Laptop, Book
+  Award, Star, Shield, Laptop, Book, ChevronRight, Download
 } from 'lucide-react';
 
 export default function EducationPage() {
+  // CORRECTED PATH: Lowercase 'l' to match your update
+  const cvPath = "/loneliness_ndalowa_cv.pdf";
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
       
-    
-
       <main className="max-w-4xl mx-auto p-4 md:p-12">
         
         {/* --- HEADER --- */}
@@ -136,18 +137,43 @@ export default function EducationPage() {
 
       </main>
 
-      {/* --- FOOTER --- */}
-      <footer className="bg-[#0f172a] text-slate-300 py-16 px-8">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-center md:text-left">
-          <div>
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-full"></div>
-              <span className="text-xl font-bold text-emerald-500">Loneliness ndalowa</span>
+      {/* --- FOOTER (Matches your requested design) --- */}
+      <footer className="bg-[#0a1224] text-slate-400 py-12 px-8 mt-20">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-left">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+              <span className="text-lg font-bold text-emerald-500">Loneliness ndalowa</span>
             </div>
-            <p className="text-slate-400 text-sm">Frontend Developer creating amazing digital experiences.</p>
+            <p className="text-slate-400 text-sm max-w-xs">
+              Frontend Developer creating amazing digital experiences.
+            </p>
+            <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-[10px] border border-slate-800 font-bold">N</div>
           </div>
-          <div className="flex flex-col items-center md:items-end justify-center">
-             <p className="text-xs text-slate-500">© 2026 Loneliness ndalowa. All rights reserved.</p>
+
+          <div>
+            <h4 className="text-white font-bold mb-4 text-sm">Quick Links</h4>
+            <ul className="space-y-2 text-sm">
+              {['Profile', 'Courses', 'Education', 'Skills', 'Certification'].map((item) => (
+                <li key={item} className="hover:text-white cursor-pointer transition-colors flex items-center gap-2">
+                  <ChevronRight size={12} className="text-slate-700" /> {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold mb-4 text-sm">Resources</h4>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
+                <a href={cvPath} download="loneliness_ndalowa_cv.pdf" className="flex items-center gap-3">
+                  <Download size={16} /> Download CV
+                </a>
+              </li>
+              <li className="flex items-center gap-3 hover:text-white cursor-pointer transition-colors">
+                <Mail size={16} /> Contact
+              </li>
+            </ul>
           </div>
         </div>
       </footer>
@@ -155,9 +181,10 @@ export default function EducationPage() {
   );
 }
 
+// Helper components remain exactly as they were
 function InfoItem({ icon, label, value }) {
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 text-left">
       <div className="p-2 bg-white rounded-lg border border-slate-100 shadow-sm">{icon}</div>
       <div>
         <p className="text-xs text-slate-500 font-bold uppercase tracking-tighter leading-none">{label}</p>
@@ -169,7 +196,7 @@ function InfoItem({ icon, label, value }) {
 
 function FocusCard({ title, desc }) {
   return (
-    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition">
+    <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition text-left">
       <p className="font-bold text-slate-800 mb-1">{title}</p>
       <p className="text-sm text-slate-500 leading-tight">{desc}</p>
     </div>

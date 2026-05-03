@@ -134,7 +134,7 @@ export default function CertificationPage() {
               </span>
             </div>
             <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
-              Frontend Developer creating high-performance, amazing digital experiences with modern web technologies.
+              Frontend Developer creating amazing digital experiences.
             </p>
           </div>
           
