@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 export default function Portfolio() {
-  const cvPath = "/Loneliness_ndalowa_cv.pdf";
+  const cvPath = "/loneliness_ndalowa_cv.pdf";
 
   // --- ONLY ADDED THIS FUNCTION ---
   const handleShare = async () => {
